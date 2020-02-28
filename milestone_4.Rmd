@@ -2,13 +2,13 @@
 title: "Milestone 4"
 author: "Molly Chiang"
 date: "2/28/2020"
-output: pdf_document
+output: bookdown::pdf_document2
 bibliography: bibliography.bib
-biblio-style: "apalike"
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
+knitr::write_bib(c("knitr", "stringr"), "bibliography.bib", width = 60)
 
 # load libraries
 
@@ -23,14 +23,20 @@ library(tidyverse)
 
 ## Footnote {-}
 
-This is my pdf document. For more information please refer to my github repo.^[[Link to Github Repo](https://github.com/mollyechiang/1006_milestone_4)]
+This is my pdf document. For more information please refer to my github repo.^[[Link to Github Repo](https://github.com/mollyechiang/1006_milestone_4)]. In order to make this document, I used knitr and stringr from [@R-knitr], [@R-stringr], [@knitr2015], and [@knitr2014].
 
-## gt Table
+## gt Table {-}
 
 ```{r gt_tibble}
 
+# created a tibble of 5 students with an empty pet column
+
 pets <- tibble(student_id = 1:5,
        pet = NA)
+
+# use map to fill in each row with either cat or dog
+# use sample to give a 60% chance of getting dog and 40% chance of getting cat
+# pipe to git and add a title
 
 pets %>%
   mutate(pet = map_chr(pets$pet, ~sample(c("dog", "cat"), size = 1, prob = c(0.6, 0.4)))) %>%
@@ -40,22 +46,27 @@ pets %>%
 
 ```
 
-
-## Simple Regression Table
+## Simple Regression Table {-}
 
 ```{r regression table}
 
-# use trail dataset that is loaded into r
+# use trail dataset that is loaded into r via the gtsummary package
+# this dataset has information on the results of a clinical trial
+# of a cancer drug
 
-model <- glm(data = trial, formula = response ~ age + stage)
+# use glm to create a model explaining death (whether the patient
+# died or not) explained by age and stage of cancer
+
+model <- glm(data = trial, formula = death ~ age + stage)
+
+# pipe model to tbl_regression() from the gtsummary package
+# to create a table
 
 model %>%
   tbl_regression()
 
 ```
 
-
-
 ## References {-}
 
-“Causal Effect of Intergroup Contact on Exclusionary Attitudes,” by Ryan D. Enos, 2014. Proceedings of the National Academy of Sciences of the United States of America 111 (10):3699–3704
+
