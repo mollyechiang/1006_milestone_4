@@ -1,0 +1,61 @@
+---
+title: "Milestone 4"
+author: "Molly Chiang"
+date: "2/28/2020"
+output: pdf_document
+bibliography: bibliography.bib
+biblio-style: "apalike"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+# load libraries
+
+library(bookdown)
+library(gt)
+library(gtsummary)
+library(rstanarm)
+library(stargazer)
+library(tidyverse)
+
+```
+
+## Footnote {-}
+
+This is my pdf document. For more information please refer to my github repo.^[[Link to Github Repo](https://github.com/mollyechiang/1006_milestone_4)]
+
+## gt Table
+
+```{r gt_tibble}
+
+pets <- tibble(student_id = 1:5,
+       pet = NA)
+
+pets %>%
+  mutate(pet = map_chr(pets$pet, ~sample(c("dog", "cat"), size = 1, prob = c(0.6, 0.4)))) %>%
+  gt() %>%
+  tab_header(title = "Fake Data of Students With Pets",
+             subtitle = "60% chance of each student having a dog, 40% of cat")
+
+```
+
+
+## Simple Regression Table
+
+```{r regression table}
+
+# use trail dataset that is loaded into r
+
+model <- glm(data = trial, formula = response ~ age + stage)
+
+model %>%
+  tbl_regression()
+
+```
+
+
+
+## References {-}
+
+“Causal Effect of Intergroup Contact on Exclusionary Attitudes,” by Ryan D. Enos, 2014. Proceedings of the National Academy of Sciences of the United States of America 111 (10):3699–3704
